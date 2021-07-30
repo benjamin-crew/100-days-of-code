@@ -9,5 +9,5 @@ concat - print ("Hello" + " Ben")
 name = input("What is your name? ")
 print("Hello" + input("What is your name? "))
 
-### Summary
+# Summary
 Understandably, day one was very simple and went over the basics of printing, inputting data and storing data in variables.

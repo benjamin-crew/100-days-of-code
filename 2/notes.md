@@ -24,8 +24,8 @@ PEMDAS
 
 Multiplication and Division, and Addtion and Subtraction, are of the same priority, and which ever is called first executes first.
 
-# Formatted strings
+### Formatted strings
 print(f"{this} is a {formatted} string")
 
-### Summary
+# Summary
 Day Two was very simple and went over the basics of data types, mathematical operators and formatted stings.
