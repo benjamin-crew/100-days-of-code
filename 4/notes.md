@@ -10,3 +10,4 @@ I've already made a bunch of notes on lists and I'd rather keep my notes togethe
 https://www.notion.so/Lists-Slices-Tuples-a9bb9cffa36a47f3919d5884fecf5c8b
 
 ## Summary
+Still very basic stuff that i've covered before and have notes on my notion page.
