@@ -1,11 +1,12 @@
 from turtle import Turtle, Screen
-from random import choice
+from random import choice, randint
 
 turtle = Turtle()
 screen = Screen()
 
 turtle.shape("turtle")
 turtle.color("green")
+screen.colormode(255)
 
 colorlist = [
     "cyan",
@@ -17,10 +18,7 @@ colorlist = [
     "DarkSlateBlue",
 ]
 
-directions = [
-    "left",
-    "right",
-]
+directions = [0, 90, 180, 270]
 
 # Draw a square
 # for _ in range(4):
@@ -54,15 +52,26 @@ directions = [
 
 # Draw a random walk
 
-for _ in range(200):
-    random_direction = choice(directions)
+# turtle.pensize(15)
+# turtle.speed(9)
+# for _ in range(200):
+    
+#     random_direction = choice(directions)
+    
+#     turtle.pencolor((randint(0,255), randint(0,255), randint(0,255)))
+#     turtle.setheading(random_direction)
+#     turtle.forward(20)
 
-    if random_direction == "left":
-        turtle.left(90)
-        turtle.forward(100)
-    else:
-        turtle.right(90)
-        turtle.forward(100)
+# Draw a circle
+turtle.speed(0)
+heading = 0
+tilt = 5
+circles = 360 / tilt
+for _ in range(0,int(circles)):
 
+    turtle.pencolor((randint(0,255), randint(0,255), randint(0,255)))
+    turtle.setheading(heading)
+    turtle.circle(100, steps=100)
+    heading += 5
 
 screen.exitonclick()
