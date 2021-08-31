@@ -9,5 +9,6 @@ class StateClass(Turtle):
         self.draw_to_screen()
 
     def draw_to_screen(self):
+        self.penup()
         self.setposition(self.x, self.y)
         self.write(f"{self.name}", align="center", font=("Arial", 10, "normal"))

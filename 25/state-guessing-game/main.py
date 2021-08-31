@@ -4,8 +4,8 @@ import sys
 from states_class import StateClass
 
 
-data = pandas.read_csv("/home/benja/Documents/Development/Python/100-days-of-code/25/test-solutions/us-states-game-start/50_states.csv")
-image = "/home/benja/Documents/Development/Python/100-days-of-code/25/test-solutions/us-states-game-start/blank_states_img.gif"
+data = pandas.read_csv("25/state-guessing-game/50_states.csv")
+image = "25/state-guessing-game/blank_states_img.gif"
 
 screen = turtle.Screen()
 
@@ -17,7 +17,7 @@ screen.addshape(image)
 turtle.shape(image)
 
 while score < 50:
-    answer_state = screen.textinput(title=f"{score}/50 States Correct (q to quit).", prompt="Enter the name of a State.").lower()
+    answer_state = screen.textinput(title=f"{score}/50 States Correct (q to quit).", prompt="Enter the name of a State.")
 
     if answer_state == "q":
         sys.exit()
