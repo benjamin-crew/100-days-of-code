@@ -10,17 +10,19 @@ image = "25/state-guessing-game/blank_states_img.gif"
 screen = turtle.Screen()
 
 score = 0
+all_states = data.state.tolist()
 guessed_states = []
+missing_states = []
 
 screen.title("US States Quiz")
 screen.addshape(image)
 turtle.shape(image)
 
 while score < 50:
-    answer_state = screen.textinput(title=f"{score}/50 States Correct (q to quit).", prompt="Enter the name of a State.")
+    answer_state = screen.textinput(title=f"{score}/50 States Correct (q to quit).", prompt="Enter the name of a State.").title()
 
-    if answer_state == "q":
-        sys.exit()
+    if answer_state == "Q":
+        break
 
     for state in data["state"]:
         if state == answer_state:
@@ -30,6 +32,15 @@ while score < 50:
             state = StateClass(answer_state, x, y)
             score += 1
 
-turtle.write(f"Congratulations, you win!!!", align="center", font=("Arial", 48, "normal"))
+
+if score == 50:
+    turtle.write(f"Congratulations, you win!!!", align="center", font=("Arial", 48, "normal"))
+else:
+    for state in all_states:
+        if state not in guessed_states:
+            missing_states.append(state)
+
+    missing_states_df = pandas.DataFrame(missing_states)
+    missing_states_df.to_csv("25/missing_states.csv")
 
 screen.exitonclick()
