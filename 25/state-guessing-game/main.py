@@ -36,11 +36,9 @@ while score < 50:
 if score == 50:
     turtle.write(f"Congratulations, you win!!!", align="center", font=("Arial", 48, "normal"))
 else:
-    for state in all_states:
-        if state not in guessed_states:
-            missing_states.append(state)
+    missing_states = [state for state in all_states if state not in guessed_states]
 
     missing_states_df = pandas.DataFrame(missing_states)
     missing_states_df.to_csv("25/missing_states.csv")
-
+    
 screen.exitonclick()
