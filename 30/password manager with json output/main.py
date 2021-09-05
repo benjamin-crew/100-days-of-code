@@ -3,6 +3,7 @@ from tkinter import messagebox
 import pandas
 import random
 import pyperclip
+import json
 
 FONT="Courier"
 FONTSIZE = 14
@@ -45,35 +46,51 @@ def add_password():
     if any([len(a.get()) == 0 for a in (website_entry, password_entry, emailusername_entry)]):
         messagebox.showerror(title="Missing Information!", message="Credentials not saved as not all entry boxes populated.")
     else:
-        data = [
-            website_entry.get(),
-            emailusername_entry.get(),
-            password_entry.get()
-        ]
 
-        dataframe = pandas.DataFrame(columns=data)
-        dataframe.to_csv("creds.csv", mode='a')
+        data = {
+                website_entry.get(): {
+                    "email": emailusername_entry.get(),
+                    "password": password_entry.get(),
+            }
+        }
 
-        clear_text()
-        messagebox.showinfo(title="Password saved.", message="Your password has been stored in the database.")
+        try:
+            with open("data.json", "r") as data_file:
+                # Read
+                loaded_json = json.load(data_file)
+        except FileNotFoundError:
+            with open("data.json", "w") as data_file:
+                json.dump(data, data_file, indent=4)
+        else:
+            # Update
+            loaded_json.update(data)
 
-# ---------------------------- CSV Creation ------------------------------- #
-try:
-    with open("creds.csv") as csvfile:
-        pass
-    # Do something with the file
-except IOError:
-    with open("creds.csv", mode="w") as file:
+            # Save
+            with open("data.json", "w") as data_file:
+                json.dump(loaded_json, data_file, indent=4)
+        finally:            
+            clear_text()
+            messagebox.showinfo(title="Password saved.", message="Your password has been stored in the database.")
 
-        columns_list = [
-        "Website",
-        "Email/Username",
-        "Password"
-        ]
 
-        dataframe = pandas.DataFrame(columns=columns_list)
-        dataframe.to_csv("creds.csv", mode='w')
+# ---------------------------- SEARCH ------------------------------- #
+def search_json():
 
+    website = website_entry.get()
+
+    try:
+        with open("data.json") as data_file:
+            loaded_json = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="No file detected.", message="There are no passwords currently stored in the database.")
+    else:
+        for key in loaded_json:
+            if website.lower() == key.lower():
+                email = loaded_json[key]["email"]
+                password = loaded_json[key]["password"]
+                messagebox.showinfo(title=key, message=f"Email: {email}\nPassword: {password}")
+            else:
+                messagebox.showinfo(title="Website not in database", message=f"{website} is not in the database.")
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Generator")
@@ -92,21 +109,23 @@ website_label.grid(column=0, row=1)
 emailusername_label.grid(column=0, row=2)
 password_label.grid(column=0, row=3)
 
-website_entry = Entry(width=35)
-emailusername_entry = Entry(width=35)
+website_entry = Entry(width=21)
+emailusername_entry = Entry(width=43)
 password_entry = Entry(width=21)
 
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry.grid(column=1, row=1, columnspan=1)
 emailusername_entry.grid(column=1, row=2, columnspan=2)
 password_entry.grid(column=1, row=3)
 
 website_entry.focus()
 emailusername_entry.insert(0, "benncrew94@gmail.com")
 
-generate_button = Button(text="Generate Password", command=generate_password)
+generate_button = Button(text="Generate Password", width=18, command=generate_password)
 add_button = Button(text="Add", width=36, command=add_password)
+search_button = Button(text="Search", width=18, command=search_json)
 
 generate_button.grid(column=2, row=3)
 add_button.grid(column=1, row=4, columnspan=2)
+search_button.grid(column=2, row=1)
 
 window.mainloop()
