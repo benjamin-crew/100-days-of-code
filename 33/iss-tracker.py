@@ -1,6 +1,7 @@
 import requests
 import smtplib
 from datetime import datetime
+import time
 
 MY_LAT = 53.682968
 MY_LNG = -1.499100
@@ -35,10 +36,6 @@ def check_location(longitude, latitude, sunset, sunrise):
     if MY_LNG - 5 <= longitude <= MY_LNG + 5 and MY_LAT - 5 <= latitude <= MY_LAT + 5:
         if time_now >= sunset or time_now <= sunrise:
             send_email()
-        else:
-            print("The ISS is near, but it's light outside.")
-    else:
-        print("The ISS isn't near.")
 
 
 def get_my_position():
@@ -67,10 +64,11 @@ def get_iss_position():
 
 
 def main():
-    longitude, latitude = get_iss_position()
     sunrise, sunset = get_my_position()
-    check_location(longitude, latitude, sunset, sunrise)
-
+    while True:
+        longitude, latitude = get_iss_position()
+        check_location(longitude, latitude, sunset, sunrise)
+        sleep(60)
 
 if __name__ == "__main__":
     main()
